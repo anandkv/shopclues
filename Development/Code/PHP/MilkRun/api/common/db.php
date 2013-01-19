@@ -1,4 +1,16 @@
 <?php
+
+//Shopclues specific
+
+/*
+define('AREA', 'A');
+define('AREA_NAME', 'admin');
+
+require_once dirname(__FILE__).'/../../../../../prepare.php';
+require_once dirname(__FILE__).'/../../../../../init.php';
+*/
+
+
 date_default_timezone_set('Asia/Calcutta');
 $createddate = date('Y-m-d H:i:s');
 
