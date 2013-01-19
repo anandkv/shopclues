@@ -1,0 +1,44 @@
+/*@charset "utf-8";
+ CSS Document */
+ 
+ /* @font-face */
+@font-face {
+	font-family: 'DINWeb-Bold';
+	src: url('DINWeb-Bold.eot?') format('eot'),
+	url('DINWeb-Bold.woff') format('woff'),
+	url('DINComp-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DINWeb-Black';
+	src: url('DINWeb-Black.eot?') format('eot'),
+	url('DINWeb-Black.woff') format('woff'),
+	url('DINComp-Black.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DINWeb';
+	src: url('DINWeb.eot?') format('eot'),
+	url('DINWeb.woff') format('woff'),
+	url('DINComp.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DINWeb-Light';
+	src: url('DINWeb-Light.eot?') format('eot'),
+	url('DINWeb-Light.woff') format('woff'),
+	url('DINComp-Light.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DINWeb-Medium';
+	src: url('DINWeb-Medium.eot?') format('eot'),
+	url('DINWeb-Medium.woff') format('woff'),
+	url('DINComp-Light.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}

@@ -1,0 +1,166 @@
+body{ background:#000; font-family:arial,helvetica,sans-serif; font-size:10pt; margin:0; padding:0; text-align:center}#container_homePage{ width:1025px; margin:0 auto 0 auto; border:1px solid #fff; text-align:left}#container{ width:1025px; margin:5px auto 0 auto; border:0px solid; text-align:left} #header_homePage{ padding:0 0 0 0; height:63px; border-bottom:0px solid} #header{ padding:0 10px 0 0; height:77px; border-bottom:1px solid; overflow:auto}  #page{ min-height:500px; height:auto !important; height:100px} ul#navlist{font:bold 11px verdana,arial,sans-serif;list-style-type:none;padding-bottom:24px;border-bottom:1px solid #6c6;margin:0}ul#navlist li{float:left;height:21px;background-color:#cfc;margin:2px 2px 0 2px;border:1px solid #6c6}ul#navlist li#active{border-bottom:1px solid #fff;background-color:#fff}li#active a{color:#000}#navlist a{float:left;display:block;color:#666;text-decoration:none;padding:4px}#navlist a:hover{background:#fff} #menu{background-color:#A7C942;color:#000;font-family:arial,helvetica,sans-serif; font-size:10pt; border:1px solid; padding:0 10px 0 0; text-align:left} #footer{ height:24px; line-height:24px; border-top:0px solid; border-bottom:0px solid; text-align:center; overflow:auto}   #footer_homepage{ height:175px; border-top:0px solid; border-bottom:0px solid; text-align:center; overflow:visible} #logo{ width:222px; height:77px; display:block; float:left} #header p{ width:300px; float:right; font-size:10px; line-height:10px; height:10px; text-transform:uppercase; text-align:right; padding-bottom:5px}   #content{ clear:both; padding:2px 10px 10px 10px; line-height:14pt; margin:5px auto 5px auto} #powered_by{ clear:both; display:block; width:126px; height:23px} .error{ font-family:Arial,Helvetica,sans-serif; font-size:10px; text-decoration:none; border:none; font-weight:bold}.msg{ font-family:Arial,Helvetica,sans-serif; font-size:13.5px; text-decoration:none; font-weight:bold}#infomessage,#warnmessage,#errormessage{ margin-bottom:1.5em; padding:0.3em; font-weight:bold; border-top:1px solid; border-bottom:1px solid}.ui-autocomplete{ background-color:white; width:300px; border:1px solid #cfcfcf; list-style-type:none; padding-left:0px}.ui-menu-item{ font-family:Arial,Helvetica,sans-serif; font-size:13.5px; width:300px; text-align:left; background-color:#CCC}.ui-active-menuitem{ background-color:#000;color:#f00; z-index:-5}.fare-summary-grid{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;width:100%;border-collapse:collapse}.fare-summary-grid td,.fare-summary-grid th {font-size:1em;border:1px solid #F27C27}.fare-summary-grid th {font-size:1.1em;text-align:left;padding-top:5px;padding-bottom:4px;background-color:#FFA824;color:#fff}.fare-summary-grid tr.alt td {color:#000;background-color:#FFA824}#bookingDetails{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;width:100%;border-collapse:collapse;border:0px solid #000;background-color:#000;z-index:1000}#bookingDetails td,#bookingDetails th {font-size:1em;border:0px solid #000;color:#fff}#bookingDetails th {font-size:1.5em;text-align:center;padding-top:5px;padding-bottom:4px;background-color:#000;color:#F27C27}#bookingDetails tr.alt td {color:#fff;background-color:#000}#admin{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;width:100%;border-collapse:collapse}#admin td,#admin th {font-size:.8em;border:1px solid #98bf21}#admin th {font-size:.9em;text-align:left;padding-top:5px;padding-bottom:4px;background-color:#A7C942;color:#fff}#admin tr.alt td {color:#000;background-color:#EAF2D3}#ul {list-style:square url("sqpurple.gif")}.results_div{border:0px solid gray;margin-left:400px;margin-right:auto;width:34%;background-color:#EAF2D3;text-align:left;padding:3px 5px;color:black;font-weight:bold;text-decoration:none;}#defineJourneyBox{ width:1025px; margin:0px auto 0 auto; border:0px solid; padding:0 0px 0 0; text-align:left; border-color:#000}.field{margin-top:3px;padding-top:4px}.messagebox{ position:absolute; width:400px; margin-left:30px; border:1px solid #c93; background:#ffc; padding:3px}.messageboxok{ position:absolute; width:auto; margin-left:30px; border:1px solid #349534; background:#C9FFCA; padding:3px; font-weight:bold; color:#008000}.messageboxerror{ position:absolute; width:auto; margin-left:30px; border:1px solid #C00; background:#F7CBCA; padding:3px; font-weight:bold; color:#C00}   .ui-datetime{  font-family:Garamond;  font-size:11px;  margin-left:10px }#one-column-emphasis{font-family:"Lucida Sans Unicode","Lucida Grande",Sans-Serif;font-size:12px;margin:45px;width:480px;text-align:left;border-collapse:collapse}#modalContainer{position:fixed;width:100%;height:100%;left:350px;top:300px;color:#000;border:1px solid #F27C27;background:#FFA824;z-index:10000}#keywords{color:#232323;font-size:10px;}
+ .records {
+            width: 510px;
+            margin: 5px;
+            padding:2px 5px;
+            border:1px solid #B6B6B6;
+        }
+        
+        .record {
+            color: #474747;
+            margin: 5px 0;
+            padding: 3px 5px;
+        	background:#E6E6E6;  
+            border: 1px solid #B6B6B6;
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
+        .record:hover {
+            background:#D3D2D2;
+        }
+        
+        
+        .round {
+        	-moz-border-radius:8px;
+        	-khtml-border-radius: 8px;
+        	-webkit-border-radius: 8px;
+        	border-radius:8px;    
+        }    
+ #statusBox{ width:1025px; margin:0px auto 0 auto; border:0px solid; padding:0 0px 0 0; text-align:left; border-color:#000;background:#fff}
+.suggestionsBox { position: relative; left: 0px; top: -21px; margin: 10px 0px 0px 0px;  background-color: #FFA824; color: #ffffff; z-index: 999999; }
+.suggestionsBox .suggestionList { margin: 0px; padding: 0px; list-style: none; }
+.suggestionsBox .suggestionList li { margin: 0px 0px 3px 0px; padding: 6px; cursor: pointer; text-align: left; color: #ffffff; }
+.suggestionsBox .suggestionList li:hover { background: #271e14; }
+.suggestionsBox .suggestionList li.resultsNotice { background: #271e14; cursor: default; }
+.menu{
+    width: 100%;
+	}
+
+   .menu ul{
+    margin: 0; padding: 0;
+    float: right;
+	}
+ 
+.menu ul li{
+    display: inline;
+	}
+ 
+.menu ul li a{
+	font: normal 12px/14px Trebuchet;
+	float: left; 
+	text-decoration: none;
+    color: #585858;
+    padding: 2.5px 5px;
+    }
+ 
+.menu ul li a:visited{
+    color: #585858;}
+ 
+.menu ul li a:hover, .menu ul li .current{
+    color: #fff;
+    background-color:#0b75b2;}
+#backgroundPopup{
+display:none;
+position:fixed;
+_position:absolute; /* hack for internet explorer 6*/
+height:100%;
+width:100%;
+top:0;
+left:0;
+background:#000000;
+border:1px solid #cecece;
+z-index:1;
+}
+#popupContact{
+display:none;
+position:fixed;
+_position:absolute; /* hack for internet explorer 6*/
+height:450px;
+width:600px;
+background:#FFFFFF;
+border:6px solid #FFA824;
+z-index:2;
+padding:12px;
+font-size:13px;
+}
+#popupContact h1{
+text-align:left;
+color:#6FA5FD;
+font-size:22px;
+font-weight:700;
+border-bottom:1px dotted #D3D3D3;
+padding-bottom:2px;
+margin-bottom:20px;
+}
+#popupContactClose{
+font-size:14px;
+line-height:14px;
+right:6px;
+top:4px;
+position:absolute;
+color:#6fa5fd;
+font-weight:700;
+display:block;
+}
+#button{
+text-align:center;
+margin:100px;
+}
+/*Splitter style */
+#LeftPane { /* optional, initial splitbar position */
+	overflow: auto;
+}
+/*
+ * Right-side element of the splitter.
+*/
+#RightPane {
+	padding: 2px;
+	overflow: auto;
+}
+
+.ui-tabs-nav li {
+	position: relative;
+}
+
+.ui-tabs-selected a span {
+	padding-right: 10px;
+}
+
+.ui-tabs-close {
+	display: none;
+	position: absolute;
+	top: 3px;
+	right: 0px;
+	z-index: 800;
+	width: 16px;
+	height: 14px;
+	font-size: 10px;
+	font-style: normal;
+	cursor: pointer;
+}
+
+.ui-tabs-selected .ui-tabs-close {
+	display: block;
+}
+
+.ui-layout-west .ui-jqgrid tr.jqgrow td {
+	border-bottom: 0px none;
+}
+
+.ui-datepicker {
+	z-index: 1200;
+}
+
+.rotate { /* for Safari */
+	-webkit-transform: rotate(-90deg);
+	/* for Firefox */
+	-moz-transform: rotate(-90deg);
+	/* for Internet Explorer */
+	filter: progid :     DXImageTransform.Microsoft.BasicImage (    
+		rotation = 
+		   3 );
+}
+
+li {
+    list-style: none;
+}

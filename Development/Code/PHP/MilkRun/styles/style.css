@@ -1,0 +1,245 @@
+@import url("../fonts/font.css");
+
+body {
+  /*  background: url("images/noise.jpg") repeat scroll 0 0 #ccc; */
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+	/*width: 1025px;*/
+    border: 1px solid #CCC;
+    color: #000;
+	margin:0 auto 0 auto;
+}
+#header{
+	background : #0899C9;
+	padding : 1px 0 1px 0;
+	color : #fff;
+}
+#content{
+    border: 2px solid #2E6E9E;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 15px #2E6E9E inset;
+    margin: 15px;
+    padding: 15px;
+}
+
+aside{
+ border-radius: 5px 5px 5px 5px;
+ background: #fe1;
+ margin:10px;
+
+}
+
+.hidden{
+display : none;
+}
+
+
+
+.side-nav{
+	width: 25%;
+	float: left;
+}
+.main-content{
+	width: 100%;
+	/**float: right;**/
+}
+.dashboard{
+	font-size: 0.9em;
+    width: 100%;
+    border-collapse: collapse;
+    clear: both;
+}
+
+.dashboard td {
+    padding: 4px;
+	text-align : center;
+}
+/*
+#extra > td {
+    padding: 0;
+}
+*/
+
+.dashboard th {
+	padding-bottom: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	cursor : pointer;
+	font-weight: bold;
+}
+.dashboard tr.row_selected, .dashboard tr.odd.row_selected td, .dashboard tr.even.row_selected td {
+	background-color: #ccf;
+}
+
+/*
+.dashboard tr.odd.row_selected td {
+	background-color: #ccf;
+}
+*/
+
+.criteria {
+	background: none repeat scroll 0 0 #EEEEFF;
+    border: medium none;
+    color: #0099CC;
+    font-size: 0.7em;
+    padding: 10px;
+    position: relative;
+	border-radius: 0 0 0 0;
+}
+
+.criteria span {
+	margin-left:5px;
+	
+}
+
+.criteria .filter {
+	position:relative;
+	/*font-size: 1em;*/
+	color: #09C;
+}
+
+
+
+.dataTables_info {
+    display: none;
+}
+.dataTables_wrapper {
+    clear: both;
+     position: inherit;
+}
+
+.dataTables_paginate, .dataTables_length, .dataTables_filter{
+	margin : 10px;
+}
+section, .section{
+	border-radius: 4px;
+	border : 2px solid gray;
+	background-color: #fff;
+}
+#grid-1,#grid-2,#grid-3{
+	margin : 20px 10px;
+/*	border-radius: 4px;
+	border : 2px solid gray;*/
+	background-color: #fff;
+
+	
+}
+
+
+.dashboard thead {
+    background: none repeat scroll 0 0 #CCCCCC;
+    padding: 12px !important;
+}
+
+.cm-button-main {
+    background-position: 0 -30px;
+    display: inline-block;
+    margin: -1px 5px 0 0;
+    padding: 0;
+}
+.date-picker{
+	width: 100px;
+}
+
+.cm-button-main button {
+    background: url("images/buttons_bg.png") no-repeat scroll 100% 0 #09A3D6;
+    border: 1px solid #007FA9;
+    border-radius: 14px 14px 14px 14px;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 25px;
+    line-height: 11px;
+    margin: 0;
+    padding: 2px 15px 3px;
+    text-shadow: 0 1px 0 #055C7A;
+	cursor: pointer;
+}
+.cm-button-main button:hover {
+	color: #fff;
+	text-shadow: 0px 1px 0px #0786b0;
+	background: #09b7e5 url('images/buttons_bg.png') no-repeat 100% -30px;
+	border-color: #007fa9;
+}
+
+
+tr.odd td, tr.odd td.sorting_1,
+tr.even td, tr.even td.sorting_1{
+	background-color: #fff;
+}
+
+.dashboard  tr{
+	border: 1px solid #ccc;
+}
+
+.sorting{
+background : url(../images/sort_both.png) no-repeat right center transparent;
+
+}
+
+
+
+.ui-accordion .ui-accordion-header {
+    padding-left: 2em;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 0;
+	width: auto;
+}
+
+.ui-accordion {
+    width: auto;
+}
+
+.dataTables_filter {
+    float: left;
+    text-align: left;
+	 width: 20%;
+}
+.dataTables_paginate {
+    text-align: center;
+	 width: 50%;
+	 float : left;
+}
+.dataTables_length {
+    float: right;
+    width: 20%;
+}
+.table-wrapper{
+	background: none repeat scroll 0 0 #cfc;
+}
+#extra{
+	background: none repeat scroll 0 0 #ccf;
+}
+
+#extra table{
+	background: none repeat scroll 0 0 #efefef;
+}
+.ajax-loading-box{   
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    font-weight: 900;
+    padding: 20px;
+    text-align: center;
+    width: 100px;
+}
+
+/* Overlay */
+#simplemodal-overlay {background-color:#000; cursor:wait;}
+
+#extra tr {
+    cursor: pointer;
+}
+
+td.numeric{
+text-align : right  !important;
+padding-right: 4em !important;
+}
+
+td.left{
+	text-align : left !important ;
+}
+
+
