@@ -80,8 +80,6 @@ function podSummary(){
 						FROM clues_mri_manifest_details_mobile_app mfd
 						JOIN clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id
 						JOIN clues_pickupboy pb ON mfd.pickupboy_id = pb.pickupboy_id
-
-
 			where (mf.manifest_id = '$manifestId' or '$manifestId' = '')
 			and (mfd.pickupboy_id = '$pbName' or '$pbName' = '')
 			and mfd.company_name like '%".$searchCriteria[mName]."%'
