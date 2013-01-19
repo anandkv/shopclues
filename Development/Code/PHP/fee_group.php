@@ -1,8 +1,10 @@
 <?php
 $display = "none";
 $messageToDisplay = "";
+//Should not connect to DB from here, use cscart spefic functions
 mysql_connect("localhost","root","root");
 mysql_select_db('scdb'); 
+
 $submitvalue="SUBMIT";
 if(isset($_POST['insert_fee_group']) && isset($_GET['edit'])){
 	$query = "update clues_billing_fee_group set 
