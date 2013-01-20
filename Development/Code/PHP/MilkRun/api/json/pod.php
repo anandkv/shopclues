@@ -72,11 +72,11 @@ function podSummary(){
 	pb.pickupboy_id,
 	ifnull(from_unixtime(max(mf.logout_dt), '$timeFormat'),'') logout_dt,
 	ifnull(from_unixtime(max(mf.login_dt), '$timeFormat'),'') login_dt,
-	ifnull(from_unixtime(max(mf.dispatch_date), '%d-%m-%Y'),'') date,
-	ifnull(SUM(mfd.expected_qty),0) expected_qty,
-	ifnull(SUM(mfd.received_qty),0) received_qty
+	ifnull(from_unixtime(max(mf.manifest_date), '%d-%m-%Y'),'') date,
+	ifnull(max(mfd.expected_qty),0) expected_qty,
+	ifnull(max(mfd.received_qty),0) received_qty
 from
-    (select  * from clues_pickupboy) pb
+    (select  * from clues_pickupboy where imei is not null and ( pickupboy_id = '$pid' or '$pid' = '')) pb
     left outer join
     (SELECT 
         manifest_id,
@@ -86,8 +86,8 @@ from
                 when status = 'Download' then status_date
             end as download_date,
             case
-                when status = 'Closed' then status_date
-            end as dispatch_date,
+                when status = 'Assigned' then status_date
+            end as manifest_date,
             case
                 when status = 'logout' then status_date
             end as logout_dt,
@@ -96,31 +96,34 @@ from
             end as login_dt
     FROM
         clues_mri_manifest mf
+	where 1=1
+		and (mf.status_date >= '$fromDate' or '$fromDate' = '' )
+		and (mf.status_date <= '$toDate' or '$toDate' = '' )
+		and (mf.manifest_id = '$manifestId' or '$manifestId' = '')
 
 ) mf ON pb.pickupboy_id = mf.pickupboy_id
 left outer join (
 
 select 
-manifest_id,
-
-merchant_id as company_id,
-sum(expected_qty)  expected_qty, 
-sum(received_qty) received_qty
-from clues_mri_manifest_details_mobile_app
-group by merchant_id, company_id
+	manifest_id,
+	merchant_id as company_id,
+	sum(expected_qty)  expected_qty, 
+	sum(received_qty) received_qty
+	from clues_mri_manifest_details_mobile_app
+	where 1=1
+		and company_name like '%".$searchCriteria[mName]."%'
+		and company_add like '%".$searchCriteria[mAddress]."%' 
+		and company_add like '%".$searchCriteria[mCity]."%' 
+	group by merchant_id, manifest_id
 ) mfd
 on mfd.manifest_id = mf.manifest_id and mf.company_id=mfd.company_id
-			where (mf.manifest_id = '$manifestId' or '$manifestId' = '')
-			and (pb.pickupboy_id = '$pid' or '$pid' = '')
-			-- and mfd.company_name like '%".$searchCriteria[mName]."%'
-			-- and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
-			-- and mfd.company_add like '%".$searchCriteria[mCity]."%' 
-			and (mf.dispatch_date >= '$fromDate' or '$fromDate' = '' )
-			and (mf.dispatch_date <= '$toDate' or '$toDate' = '' )
+			
+			
+			
 
 group by mf.manifest_id ,  pb.pickupboy_id";
 
-	//echo $query;
+//	echo $query;
 	return db_get_array($query);
 }
 
@@ -128,10 +131,29 @@ function listProducts(){
 	global $searchCriteria, $fromDate, $toDate;
 	$company_id = $_REQUEST['company_id'];
 	$manifest_id = $_REQUEST['manifestId'];
+	$pid = $_REQUEST['pid'];
 	$query="select * from clues_mri_manifest_details_mobile_app mfd 
-			join clues_reasons cr on mfd.reason_id = cr.rowId 
-			join  clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id and mf.company_id = mfd.merchant_id
-			where mfd.merchant_id = '$company_id'
+			left outer join clues_reasons cr on mfd.reason_id = cr.rowId 
+			join  (
+			
+			SELECT 
+        manifest_id,
+            company_id,
+            pickupboy_id,
+			status,
+            status_date
+            
+    FROM
+        clues_mri_manifest mf
+where status_date = (select max(status_date) from clues_mri_manifest mf1 
+where mf1.company_id= mf.company_id
+and mf1.manifest_id = mf.manifest_id 
+and mf1.pickupboy_id = mf.pickupboy_id 
+)
+and mf.pickupboy_id = '$pid'
+			
+			) mf ON mfd.manifest_id = mf.manifest_id and mf.company_id = mfd.merchant_id
+			where mf.company_id = '$company_id'
 			and mf.manifest_id='$manifest_id'
 			and mfd.company_name like '%".$searchCriteria[mName]."%'
 			and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
@@ -158,8 +180,6 @@ mfd.company_add,
 	mf.status,
 	mf.status_date
 from
-    (select  * from clues_pickupboy where pickupboy_id= '42') pb
-    left outer join
     (SELECT 
         manifest_id,
             company_id,
@@ -172,10 +192,10 @@ from
 where status_date = (select max(status_date) from clues_mri_manifest mf1 
 where mf1.company_id= mf.company_id
 and mf1.manifest_id = mf.manifest_id 
+and mf1.pickupboy_id = mf.pickupboy_id 
 )
-
-) mf ON pb.pickupboy_id = mf.pickupboy_id
-left outer join (
+and mf.pickupboy_id = '$pid'
+) mf join (
 
 select 
 manifest_id,
