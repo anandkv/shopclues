@@ -99,13 +99,13 @@ $(document).ready(function () {
 		var html="";
 		for (x in pod){
 			var merchant = pod[x]; 
-			merchants[merchant.merchant_id] = merchant;
-			html+="<tr merchant_id='"+pod[x].merchant_id+"'>";
+			merchants[merchant.company_id] = merchant;
+			html+="<tr company_id='"+pod[x].company_id+"'>";
 			html+="<td class='left'><b>"+pod[x].company_name+"</b><br/>"+pod[x].company_add+"</td>";
 			html+="<td class='numeric'>"+pod[x].expected_qty+"</td>";
 			html+="<td class='numeric'>"+pod[x].received_qty+"</td>";
 			html+="<td>"+pod[x].status+"</td>";
-			html+="<td>"+pod[x].close_dt+"</td>";
+			html+="<td>"+pod[x].status_date+"</td>";
 			html+="</tr>";
 		}
 		var grid2 = $('#grid-2');
@@ -124,11 +124,11 @@ $(document).ready(function () {
 			var data= searchCriteria;
 			data.action = 'listProducts';
 
-			data.merchant_id = $(this).attr('merchant_id');
+			data.company_id = $(this).attr('company_id');
 			data.pickupboy_id = $(this).attr('pickupboy_id');
 			
 			
-			$('#merchant-name').html(merchants[data.merchant_id].company_name);
+			$('#merchant-name').html(merchants[data.company_id].company_name);
 			$.get("../api/json/pod.php",data, listProducts);
         });
 

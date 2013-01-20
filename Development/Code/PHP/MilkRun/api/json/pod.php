@@ -2,7 +2,7 @@
 require("../common/db.php");
 
 $action = $_REQUEST['action'];
-$timeFomat = "%Y-%m-%d %H:%m:%s";
+$timeFormat = "%Y-%m-%d %H:%i:%s";
 
 $searchCriteria = $_REQUEST;
 
@@ -63,52 +63,82 @@ function podSummary(){
 	$mAddress = $_REQUEST["mAddress"];
 	$mCity =  $_REQUEST["mCity"];
 	$manifestId =  $_REQUEST["manifestId"];
-	$pbName =  $_REQUEST["pbName"];
+	$pid =  $_REQUEST["pid"];
 
-	$query="SELECT mf.pickupboy_id ,pb.pickupboy, mf.manifest_id,
-			case mf.logout_date
-			when null then ''
-			when 0 then ''
-			else FROM_UNIXTIME(mf.logout_date, '%Y-%m-%d %H:%m:%s')
-			END  logout_dt, 
-			case mf.login_date
-			when null then ''
-			when 0 then ''
-			else FROM_UNIXTIME(mf.login_date, '%Y-%m-%d %H:%m:%s')
-			END  login_dt,
-			FROM_UNIXTIME(dispatch_date, '%d-%m-%Y') AS date, SUM( received_qty ) received_qty, SUM( expected_qty ) expected_qty
-						FROM clues_mri_manifest_details_mobile_app mfd
-						JOIN clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id
-						JOIN clues_pickupboy pb ON mfd.pickupboy_id = pb.pickupboy_id
+	$query=" select 
+	pb.imei,
+	ifnull(mf.manifest_id,'') manifest_id ,
+	pb.pickupboy,
+	pb.pickupboy_id,
+	ifnull(from_unixtime(max(mf.logout_dt), '$timeFormat'),'') logout_dt,
+	ifnull(from_unixtime(max(mf.login_dt), '$timeFormat'),'') login_dt,
+	ifnull(from_unixtime(max(mf.dispatch_date), '%d-%m-%Y'),'') date,
+	ifnull(SUM(mfd.expected_qty),0) expected_qty,
+	ifnull(SUM(mfd.received_qty),0) received_qty
+from
+    (select  * from clues_pickupboy) pb
+    left outer join
+    (SELECT 
+        manifest_id,
+            company_id,
+            pickupboy_id,
+            case
+                when status = 'Download' then status_date
+            end as download_date,
+            case
+                when status = 'Closed' then status_date
+            end as dispatch_date,
+            case
+                when status = 'logout' then status_date
+            end as logout_dt,
+			case
+                when status = 'login' then status_date
+            end as login_dt
+    FROM
+        clues_mri_manifest mf
+
+) mf ON pb.pickupboy_id = mf.pickupboy_id
+left outer join (
+
+select 
+manifest_id,
+
+merchant_id as company_id,
+sum(expected_qty)  expected_qty, 
+sum(received_qty) received_qty
+from clues_mri_manifest_details_mobile_app
+group by merchant_id, company_id
+) mfd
+on mfd.manifest_id = mf.manifest_id and mf.company_id=mfd.company_id
 			where (mf.manifest_id = '$manifestId' or '$manifestId' = '')
-			and (mfd.pickupboy_id = '$pbName' or '$pbName' = '')
-			and mfd.company_name like '%".$searchCriteria[mName]."%'
-			and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
-			and mfd.company_add like '%".$searchCriteria[mCity]."%' 
+			and (pb.pickupboy_id = '$pid' or '$pid' = '')
+			-- and mfd.company_name like '%".$searchCriteria[mName]."%'
+			-- and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
+			-- and mfd.company_add like '%".$searchCriteria[mCity]."%' 
 			and (mf.dispatch_date >= '$fromDate' or '$fromDate' = '' )
 			and (mf.dispatch_date <= '$toDate' or '$toDate' = '' )
-		GROUP BY pickupboy_id, manifest_id";
+
+group by mf.manifest_id ,  pb.pickupboy_id";
+
 	//echo $query;
 	return db_get_array($query);
 }
 
 function listProducts(){
 	global $searchCriteria, $fromDate, $toDate;
-	$merchant_id = $_REQUEST['merchant_id'];
+	$company_id = $_REQUEST['company_id'];
+	$manifest_id = $_REQUEST['manifestId'];
 	$query="select * from clues_mri_manifest_details_mobile_app mfd 
-			left outer join clues_reasons cr on mfd.reason_id = cr.rowId 
-			left outer join  clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id
-			where mfd.merchant_id = '$merchant_id'
+			join clues_reasons cr on mfd.reason_id = cr.rowId 
+			join  clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id and mf.company_id = mfd.merchant_id
+			where mfd.merchant_id = '$company_id'
+			and mf.manifest_id='$manifest_id'
 			and mfd.company_name like '%".$searchCriteria[mName]."%'
 			and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
 			and mfd.company_add like '%".$searchCriteria[mCity]."%' 
-			
 			and (mfd.order_id = '".$searchCriteria[orderId]."' or '".$searchCriteria[orderId]."' = '')
 			and (mfd.product_id = '".$searchCriteria[productId]."' or '".$searchCriteria[productId]."' = '')
-			
-			and (mf.dispatch_date >= '$fromDate' or '$fromDate' = '' )
-			and (mf.dispatch_date <= '$toDate' or '$toDate' = '' )
-			";
+		";
 
 //			echo $query;
 	return db_get_array($query);
@@ -117,31 +147,56 @@ function listProducts(){
 function listMerchants(){
 	global $searchCriteria, $fromDate, $toDate, $timeFomat;
 	$pid = $searchCriteria['pid'];
-	$query="select 
-    merchant_id,
-    case mfd.close_date
-        when null then ''
-        when 0 then ''
-        else FROM_UNIXTIME(mfd.close_date, '%Y-%m-%d %H:%m:%s')
-    END close_dt,
-    company_name,
-    status,
-    company_add,
-    sum(expected_qty) expected_qty,
-    sum(received_qty) received_qty
+	$query="
+	
+	select 
+	mfd.company_id,
+	mfd.company_name,
+mfd.company_add,
+	ifnull(SUM(mfd.expected_qty),0) expected_qty,
+	ifnull(SUM(mfd.received_qty),0) received_qty,
+	mf.status,
+	mf.status_date
 from
-    clues_mri_manifest_details_mobile_app mfd
-        left outer join
-    clues_mri_manifest mf ON mfd.manifest_id = mf.manifest_id
-			where mfd.pickupboy_id = '$pid'
-			and mfd.company_name like '%".$searchCriteria[mName]."%'
-			and mfd.company_add like '%".$searchCriteria[mAddress]."%' 
-			and mfd.company_add like '%".$searchCriteria[mCity]."%' 
-			and (mfd.order_id = '".$searchCriteria[orderId]."' or '".$searchCriteria[orderId]."' = '')
-			and (mfd.product_id = '".$searchCriteria[productId]."' or '".$searchCriteria[productId]."' = '')
-			and (mf.dispatch_date >= '$fromDate' or '$fromDate' = '' )
-			and (mf.dispatch_date <= '$toDate' or '$toDate' = '' )
-			group by company_name , company_add, merchant_id, status";
+    (select  * from clues_pickupboy where pickupboy_id= '42') pb
+    left outer join
+    (SELECT 
+        manifest_id,
+            company_id,
+            pickupboy_id,
+			status,
+            status_date
+            
+    FROM
+        clues_mri_manifest mf
+where status_date = (select max(status_date) from clues_mri_manifest mf1 
+where mf1.company_id= mf.company_id
+and mf1.manifest_id = mf.manifest_id 
+)
+
+) mf ON pb.pickupboy_id = mf.pickupboy_id
+left outer join (
+
+select 
+manifest_id,
+company_name ,
+company_add as company_add,
+merchant_id as company_id,
+sum(expected_qty)  expected_qty, 
+sum(received_qty) received_qty
+from clues_mri_manifest_details_mobile_app mfd1
+where mfd1.company_name like '%".$searchCriteria[mName]."%'
+			and mfd1.company_add like '%".$searchCriteria[mAddress]."%' 
+			and mfd1.company_add like '%".$searchCriteria[mCity]."%' 
+			and (mfd1.order_id = '".$searchCriteria[orderId]."' or '".$searchCriteria[orderId]."' = '')
+			and (mfd1.product_id = '".$searchCriteria[productId]."' or '".$searchCriteria[productId]."' = '')
+			
+group by merchant_id, company_id
+) mfd
+on mfd.manifest_id = mf.manifest_id and mf.company_id=mfd.company_id
+			where 1=1
+			group by mfd.company_id";
+			
 	return db_get_array($query);
 }
 
